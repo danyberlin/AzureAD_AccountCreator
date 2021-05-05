@@ -8,26 +8,29 @@ Includes so far following attributes
 - Company, Position, Department, Phone Number
 - Display Name
 - Requires Email Adress for account creation or update
-- Generated First and Lastname based on mandatoty pattern
+- Generated First and Lastname based on mandatoty pattern\
 eg firstname.lastname@example.com
 
 
 ## Requirements ##
-Windows Session by a domain user with the role User Administator or Global Administrator
-PowerShell
-`Install-Module -Name AzureAD`
+Windows Session by a domain user with either of these roles
+- User Administator 
+- Global Administrator
+
+Execute the following commands\
+`Install-Module -Name AzureAD`\
 `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned`
 
 ## HowTo ##
 1) Open the script
 2) Make sure the static values match your worksheet's colum
 3) Navigate to the folder where the script is located in PS
-Enter name of the script like a command with the following two parameters:
-    name of the workbook (absolute path!) name of worksheet
+4) Enter name of the script like a command with the following two parameters:\
+    name of the workbook (absolute path!) name of the worksheet
 
 > PS C:\Users\d\Desktop>azureConnect.ps1 C:\Users\d\Downloads\someWB.xlxs Sheet1
 
-Good luck!
+Good luck!\
 D
 
 
