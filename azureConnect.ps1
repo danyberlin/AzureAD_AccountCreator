@@ -11,8 +11,8 @@ $PhoneNumber_Pos = 9
 $Password_Pos = 10
 $Messages_Pos = 11
 
-$path = $args[0]
-$CurrentWS = $args[1]
+$path = $args[0] #spreadsheet
+$CurrentWS = $args[1] #worksheet
 
 
 # Helping Functions
@@ -94,11 +94,14 @@ $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 Write-Output ""
 # Workbook open, work begins! 
 
+# Alternative authentication when user account is not administrator but uses different admin credentials
+
 # if ($null -eq $AzureAdCred) {
 #     $AzureAdCred = Get-Credential
 # }
 # Connect-AzureAD -Credential $AzureAdCred
 
+#Authentication
 $UPN = whoami /upn
 Connect-AzureAD -AccountId $UPN
 
@@ -108,7 +111,7 @@ while ($keepGoing) {
     
 
     for ($i = 1; $i -lt $newcomerCount + 1; $i++) {
-        if (($ws.Cells.Item($i + 1, $Messages_Pos)).Text -eq "OK") {
+        if (($ws.Cells.Item($i + 1, $Messages_Pos)).Text -eq "OK" -or ($ws.Cells.Item($i + 1, $Messages_Pos)).Text -eq "SKIP") {
             continue
         }
         Write-Host -BackgroundColor Yellow "-------------------------------------"
@@ -117,6 +120,16 @@ while ($keepGoing) {
         $ws.Cells.Item($i + 1, $Messages_Pos).Interior.ColorIndex = 44
         $DisplayName = $ws.Cells.Item($i + 1, $DisplayName_Pos).Text
         $EmailAddress = $ws.Cells.Item($i + 1, $Email_Pos).Text
+        
+        # Illegal characters
+        # "ä","ü","ö","ß"," ","å","é","®","þ","í","ó","ß","ð","â"
+
+        if($ws.Cells.Item($i + 1, $Email_Pos).Text.contains("ä") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("ü") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("ö") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("ß") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains(" ") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("å") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("é") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("®") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("þ") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("í") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("ó") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("ð") -or $ws.Cells.Item($i + 1, $Email_Pos).Text.contains("â")) {
+           $ws.Cells.Item($i + 1, $Email_Pos).Interior.ColorIndex = 3
+           $ws.Cells.Item($i + 1, $Messages_Pos) = "EMAIL CONTAINS ILLEGAL CHARACTERS"
+           continue
+        }
+
         $EmailNickName = ($ws.Cells.Item($i + 1, $Email_Pos).Text).split("@")
         $Name = ($EmailNickName).split(".")
         $TextInfo = (Get-Culture).TextInfo
@@ -217,6 +230,7 @@ while ($keepGoing) {
                 Write-Output "No Company to Add"
             }
 
+            # Might use this one day
             if ($PhoneNumber) {
                 try {
                     Write-Output "Adding Phonenumber $PhoneNumber"
@@ -293,7 +307,8 @@ while ($keepGoing) {
             else {
                 Write-Output "No Licenses to Add"
             }
-        
+            
+            # Setting log column as OK to say everything went well
             $ws.Cells.Item($i + 1, $Messages_Pos) = "OK"
             $ws.Cells.Item($i + 1, $Messages_Pos).Interior.ColorIndex = 43
         }
