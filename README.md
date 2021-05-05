@@ -1,20 +1,26 @@
 # AzureAD AccountCreator
-Simple PS Script to create AzureAD, MS365 user accounts with attributes in bulk
+Simple PS Script to create AzureAD, MS365 user accounts with attributes in bulk by referencing an Excel workbook. The script can read/write the worksheet given as a parameter. 
 
-Includes so far consideration for the following:
+Includes so far following attributes
 
-- License
-- Groups like MS 365, Distribution Lists, Security Groups, NO SharedMailbox
+- Licenses by SKU name
+- Groups by Email or ObjectID, no **SharedMailbox**
 - Company, Position, Department, Phone Number
 - Display Name
 - Requires only Email Adress for account creation or update
 - Generated First and Lastname based on mandatoty Email pattern!
-            firstname.lastname@domainname (default domain name)
+firstname.lastname@domainname (default domain name)
 
 
-Howto: 
+## Requirements ##
+Windows Session by a domain user with the role User Administator or Global Administrator
+PowerShell
+`Install-Module -Name AzureAD`
+`Set-ExecutionPolicy -ExecutionPolicy RemoteSigned`
 
-Open Powershell or Windows Terminal
+## HowTo ##
+1) Open the script
+2) Make sure the static values match your worksheet's colum
 Navigate to the folder where the script is located
 Enter name of the script like a command with the following two parameters:
     name of the workbook (absolute path!) name of worksheet
