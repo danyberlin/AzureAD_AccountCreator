@@ -9,7 +9,7 @@ Includes so far following attributes
 - Display Name
 - Requires Email Adress for account creation or update
 - Generated First and Lastname based on mandatoty pattern\
-eg firstname.lastname@example.com
+eg `firstname.lastname@example.com`
 
 
 ## Requirements ##
@@ -24,11 +24,16 @@ Execute the following commands\
 ## HowTo ##
 1) Open the script
 2) Make sure the static values match your worksheet's colum
+
+| \# | Display Name | E-Mail | Licenses | Groups | Department | Position | Company | Mobile Phone | Password | Messages | 
+|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|
+| 1 | Names | `mike.mouch@domain.com` | INTUNE_A,ENTERPRISE_A | `karaokeclub@domain.com`,some-object-id | Mission Control | Major Doughe | The Goof Ltd. | 0123-6666666 | \<leave empty\> | \<leave empty\> |
+
 3) Navigate to the folder where the script is located in PS
 4) Enter name of the script like a command with the following two parameters:\
     name of the workbook (absolute path!) name of the worksheet
 
-> PS C:\Users\d\Desktop>azureConnect.ps1 C:\Users\d\Downloads\someWB.xlxs Sheet1
+eg `PS C:\Users\d\Desktop>azureConnect.ps1 C:\Users\d\Downloads\someWB.xlxs Sheet1`
 
 Good luck!\
 D
