@@ -19,6 +19,7 @@ Navigate to the folder where the script is located
 Enter name of the script like a command with the following two parameters:
     name of the workbook (absolute path!) name of worksheet
 
+eg: PS C:\Users\d\Desktop> azureConnect.ps1 C:\Users\d\Downloads\someWB.xlxs Sheet1
 
 Good luck everyone!
 D
